@@ -52,3 +52,8 @@ model.pth
 gender_classifier/gender_dataset_face/
 gender_classifier/gender_model.pth
 gender_classifier/__MACOSX/
+
+# YOLO weights and runs
+*.pt
+gender_classifier/yolo_runs/
+
