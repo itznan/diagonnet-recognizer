@@ -5,7 +5,9 @@
 [![CUDA Enabled](https://img.shields.io/badge/CUDA-RTX%203060%20Ti-green.svg)](https://developer.nvidia.com/cuda-zone)
 [![License-MIT](https://img.shields.io/badge/License-MIT-purple.svg)](https://opensource.org/licenses/MIT)
 
-An end-to-end framework implementing the custom **DiagonNet** neural network architecture. The project supports:
+An interactive digit recognition system featuring DiagonNet, a custom neural network architecture that learns diagonal and chess knight-move pixel relationships. Trained on GPU via PyTorch CUDA.
+
+The project supports:
 1. **Interactive Digit Recognition**: Draw digits on a live Tkinter canvas and run real-time inference on your GPU.
 2. **Face Gender Classification**: Predict male vs. female faces using a custom face dataset, comparing performance directly against standard baselines (SimpleCNN, SimpleMLP) and YOLOv8-Classifier.
 
