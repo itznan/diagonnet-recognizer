@@ -1,18 +1,28 @@
 import os
+import sys
+
+# Add project root to path
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
+
 import tkinter as tk
 from tkinter import messagebox
 import numpy as np
 from PIL import Image, ImageDraw
 import torch
-from utils import preprocess_image, DiagonNet
 
-# Configuration
+from src.models.diagonnet import DiagonNet
+from src.utils.image_processing import preprocess_image
+from config.settings import (
+    GRID_SIZE,
+    HIDDEN_LAYERS,
+    DIGIT_MODEL_PATH as MODEL_PATH
+)
+
+# App-specific configuration
 CANVAS_SIZE = 400
-GRID_SIZE = 100
 BRUSH_SIZE = 16
-MODEL_PATH = "model.pth"
-HIDDEN_LAYERS = [256, 128, 64]
 DIGITS = [1, 2, 3, 4, 5, 6, 7, 8, 9]
+
 
 class DigitRecognizerApp:
     def __init__(self, root):

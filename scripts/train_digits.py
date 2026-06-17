@@ -1,4 +1,9 @@
 import os
+import sys
+
+# Add project root to path
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
+
 import glob
 import torch
 import torch.nn as nn
@@ -7,19 +12,19 @@ from torch.utils.data import DataLoader, TensorDataset
 import numpy as np
 from PIL import Image
 from sklearn.model_selection import train_test_split
-from utils import preprocess_image, DiagonNet
 
-# Configuration
-DATA_DIR = "data"
-GRID_SIZE = 100
-MODEL_PATH = "model.pth"
-
-# Neural Network Architecture Configurations
-HIDDEN_LAYERS = [256, 128, 64]
-WEIGHT_DECAY = 1e-4  # L2 regularization strength to prevent overfitting
-BATCH_SIZE = 64
-EPOCHS = 100
-LEARNING_RATE = 0.001
+from src.models.diagonnet import DiagonNet
+from src.utils.image_processing import preprocess_image
+from config.settings import (
+    GRID_SIZE,
+    BATCH_SIZE,
+    LEARNING_RATE,
+    WEIGHT_DECAY,
+    HIDDEN_LAYERS,
+    DIGIT_DATA_DIR as DATA_DIR,
+    DIGIT_MODEL_PATH as MODEL_PATH,
+    EPOCHS_DIGITS as EPOCHS
+)
 
 def shift_image(img, dx, dy):
     """Shifts the image by dx, dy, filling the background with black."""
@@ -236,9 +241,10 @@ def main():
     final_model = train_model(final_model, full_loader, val_loader, device, EPOCHS)
     
     # 9. Save the PyTorch Model weights
+    os.makedirs(os.path.dirname(MODEL_PATH), exist_ok=True)
     torch.save(final_model.state_dict(), MODEL_PATH)
     print(f"\nSuccess! PyTorch Model trained on GPU and weights saved to '{MODEL_PATH}'")
-    print("Next step: Run 'python use.py' to test the model in real time!")
+    print("Next step: Run 'python scripts/run_digit_app.py' to test the model in real time!")
     print("=" * 70)
 
 if __name__ == "__main__":

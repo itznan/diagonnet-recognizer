@@ -4,12 +4,15 @@ import torch
 import numpy as np
 from PIL import Image
 
-# Add parent directory to sys.path to import utils
+# Add project root to sys.path
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
-from utils import preprocess_image, DiagonNet
-
-MODEL_PATH = os.path.join(os.path.dirname(__file__), "gender_model.pth")
-GRID_SIZE = 100
+from src.models.diagonnet import DiagonNet
+from src.utils.image_processing import preprocess_image
+from config.settings import (
+    GRID_SIZE,
+    HIDDEN_LAYERS,
+    GENDER_MODEL_PATH as MODEL_PATH
+)
 
 def main():
     if len(sys.argv) < 2:
@@ -24,7 +27,7 @@ def main():
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     
     # Load model (binary classifier: 2 outputs)
-    model = DiagonNet(input_size=GRID_SIZE, hidden_dims=[256, 128, 64], num_classes=2)
+    model = DiagonNet(input_size=GRID_SIZE, hidden_dims=HIDDEN_LAYERS, num_classes=2)
     try:
         model.load_state_dict(torch.load(MODEL_PATH, map_location=device, weights_only=True))
         model.to(device)

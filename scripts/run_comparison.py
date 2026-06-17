@@ -12,20 +12,23 @@ from PIL import Image
 from sklearn.model_selection import train_test_split
 import matplotlib.pyplot as plt
 
-# Add parent directory to sys.path to import DiagonNet
+# Add project root to sys.path
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
-from utils import preprocess_image, DiagonNet
-
-# Import YOLO
+from src.models.diagonnet import DiagonNet
+from src.utils.image_processing import preprocess_image
+from config.settings import (
+    GRID_SIZE,
+    BATCH_SIZE,
+    LEARNING_RATE,
+    WEIGHT_DECAY,
+    HIDDEN_LAYERS,
+    GENDER_DATA_DIR as DATA_DIR,
+    YOLO_GENDER_RUN_DIR as YOLO_PROJECT_DIR,
+    COMPARISON_CHART_PATH as CHART_PATH
+)
 from ultralytics import YOLO
 
-# Configurations
-DATA_DIR = os.path.join(os.path.dirname(__file__), "gender_dataset_face")
-GRID_SIZE = 100
-BATCH_SIZE = 64
-EPOCHS = 20
-LEARNING_RATE = 0.001
-WEIGHT_DECAY = 1e-4
+EPOCHS = 20  # Keep epochs at 20 for standard comparative runs
 
 # 1. Define baseline models for comparison
 class SimpleMLP(nn.Module):
@@ -240,7 +243,7 @@ def main():
     params_yolo = sum(p.numel() for p in yolo_model.model.parameters() if p.requires_grad)
     
     # Train YOLO
-    yolo_project = os.path.join(os.path.dirname(__file__), "yolo_runs")
+    yolo_project = YOLO_PROJECT_DIR
     if os.path.exists(yolo_project):
         shutil.rmtree(yolo_project)
         
@@ -313,7 +316,8 @@ def main():
     plt.grid(True, linestyle='--', alpha=0.3)
     plt.legend(loc='lower right', fontsize=10)
     
-    chart_path = os.path.join(os.path.dirname(__file__), "comparison_chart.png")
+    chart_path = CHART_PATH
+    os.makedirs(os.path.dirname(chart_path), exist_ok=True)
     plt.savefig(chart_path, dpi=300, bbox_inches='tight')
     plt.close()
     

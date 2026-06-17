@@ -9,18 +9,20 @@ import numpy as np
 from PIL import Image
 from sklearn.model_selection import train_test_split
 
-# Add parent directory to sys.path to import utils
+# Add project root to sys.path
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
-from utils import preprocess_image, DiagonNet
-
-# Configuration
-DATA_DIR = os.path.join(os.path.dirname(__file__), "gender_dataset_face")
-GRID_SIZE = 100
-MODEL_PATH = os.path.join(os.path.dirname(__file__), "gender_model.pth")
-BATCH_SIZE = 64
-EPOCHS = 25
-LEARNING_RATE = 0.001
-WEIGHT_DECAY = 1e-4  # L2 regularization
+from src.models.diagonnet import DiagonNet
+from src.utils.image_processing import preprocess_image
+from config.settings import (
+    GRID_SIZE,
+    BATCH_SIZE,
+    LEARNING_RATE,
+    WEIGHT_DECAY,
+    HIDDEN_LAYERS,
+    GENDER_DATA_DIR as DATA_DIR,
+    GENDER_MODEL_PATH as MODEL_PATH,
+    EPOCHS_GENDER as EPOCHS
+)
 
 def shift_image(img, dx, dy):
     """Shifts the image by dx, dy, filling the background with black."""
@@ -221,6 +223,7 @@ def main():
     final_model = train_model(final_model, full_loader, val_loader, device, EPOCHS)
     
     # 10. Save Model Weights
+    os.makedirs(os.path.dirname(MODEL_PATH), exist_ok=True)
     torch.save(final_model.state_dict(), MODEL_PATH)
     print(f"\nSuccess! DiagonNet Gender Model saved to '{MODEL_PATH}'")
     print("=" * 70)

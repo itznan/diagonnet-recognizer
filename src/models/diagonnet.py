@@ -1,37 +1,5 @@
-import numpy as np
-from PIL import Image
 import torch
 import torch.nn as nn
-
-def preprocess_image(img, target_size=100, padding=12):
-    """
-    Crops the drawn digit to its bounding box, pads it to a square aspect ratio,
-    and resizes it to target_size x target_size.
-    This ensures the model is invariant to where the user draws and how large they draw.
-    """
-    img = img.convert("L")
-    bbox = img.getbbox()
-    if bbox is None:
-        # Return a blank image if canvas is empty
-        return Image.new("L", (target_size, target_size), "black")
-        
-    # Crop to bounding box of the drawing
-    cropped = img.crop(bbox)
-    
-    w, h = cropped.size
-    max_dim = max(w, h)
-    
-    # Create a black square image with padding
-    square_size = max_dim + padding * 2
-    square_img = Image.new("L", (square_size, square_size), "black")
-    
-    # Center the cropped image
-    paste_x = padding + (max_dim - w) // 2
-    paste_y = padding + (max_dim - h) // 2
-    square_img.paste(cropped, (paste_x, paste_y))
-    
-    # Resize to target 100x100
-    return square_img.resize((target_size, target_size), Image.Resampling.LANCZOS)
 
 class DiagonNet(nn.Module):
     """
@@ -164,7 +132,6 @@ class DiagonNet(nn.Module):
         diff_k8 = x - k8
         
         # Concatenate along the channel dimension (dim=1)
-        # Out shape: (batch_size, 13, input_size, input_size)
         features = torch.cat([
             x, 
             diff_tl, diff_tr, diff_bl, diff_br,
@@ -174,14 +141,7 @@ class DiagonNet(nn.Module):
         return features
 
     def forward(self, x):
-        # 1. Custom DiagonNet & Knight's Move channels
         features = self._custom_features(x)
-        
-        # 2. Convolutional feature maps
         conv_features = self.conv_layers(features)
-        
-        # 3. Flatten for linear layers
         flat_features = conv_features.view(-1, self.flattened_dim)
-        
-        # 4. Dense classification layers
         return self.classifier(flat_features)

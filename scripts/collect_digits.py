@@ -1,15 +1,21 @@
 import os
+import sys
+
+# Add project root to path
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
+
 import tkinter as tk
 from tkinter import messagebox
 from PIL import Image, ImageDraw
 
-# Configuration
+from config.settings import GRID_SIZE, DIGIT_DATA_DIR as DATA_DIR
+
+# App-specific configuration
 CANVAS_SIZE = 400
-GRID_SIZE = 100
 BRUSH_SIZE = 16
 NUM_ATTEMPTS = 30
 DIGITS = [1, 2, 3, 4, 5, 6, 7, 8, 9]
-DATA_DIR = "data"
+
 
 class DataCollectorApp:
     def __init__(self, root):
@@ -298,7 +304,7 @@ class DataCollectorApp:
             self.canvas.unbind("<ButtonRelease-1>")
             self.btn_save.configure(state=tk.DISABLED)
             self.btn_clear.configure(state=tk.DISABLED)
-            self.status_label.configure(text="All data saved! Run python train.py next.")
+            self.status_label.configure(text="All data saved! Run python scripts/train_digits.py next.")
 
     def save_and_next(self):
         digit = self.get_current_digit()

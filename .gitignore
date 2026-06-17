@@ -44,14 +44,16 @@ ENV/
 # Project-specific ignored files
 # Ignore the collected local image data
 data/
-
-# Ignore the trained PyTorch model weights (large binary file)
-model.pth
-
-# Ignore large local files in gender classifier
 gender_classifier/gender_dataset_face/
-gender_classifier/gender_model.pth
 gender_classifier/__MACOSX/
+
+# Ignore PyTorch model weight files (large binaries)
+*.pth
+weights/*.pth
+
+# Old weight paths
+model.pth
+gender_classifier/gender_model.pth
 
 # YOLO weights and runs
 *.pt
