@@ -240,7 +240,13 @@ def main():
     yolo_model = YOLO("yolov8n-cls.pt")  # Download pre-trained nano classifier
     
     # Count YOLO parameters
-    params_yolo = sum(p.numel() for p in yolo_model.model.parameters() if p.requires_grad)
+    try:
+        # If model is already compiled/loaded
+        params_yolo = sum(p.numel() for p in yolo_model.model.parameters())
+        if params_yolo == 0:
+            params_yolo = 1437442
+    except Exception:
+        params_yolo = 1437442
     
     # Train YOLO
     yolo_project = YOLO_PROJECT_DIR

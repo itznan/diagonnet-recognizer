@@ -58,8 +58,8 @@ Models trained on **2,307 face images** using an NVIDIA GeForce RTX 3060 Ti GPU 
 > [!IMPORTANT]
 > **🏆 The DiagonNet Advantage:**
 > * **Near-SOTA Accuracy from Scratch**: Achieves a massive **97.62% validation accuracy**—on par with YOLOv8 (**98.27%**)—without utilizing any external pre-trained weights (unlike YOLOv8 which is pre-trained on ImageNet).
-> * **15x Speedup in Training**: Converges fully in just **11.64 seconds** on GPU, compared to YOLOv8's **167.28 seconds** (nearly 15 times faster!).
-> * **Outperforms Baselines by ~10%**: Beats standard convolutional baselines (SimpleCNN at **88.31%**) and MLPs (SimpleMLP at **82.25%**) by encoding custom diagonal and L-shape chess knight pixel relationship maps as a spatial bias.
+> * **14.3x Speedup in Training Time**: Trains in just **11.64 seconds** on GPU, compared to YOLOv8's **167.28 seconds** (for the full 20-epoch run).
+> * **Outperforms Baselines by up to 15%**: Beats standard convolutional baselines (SimpleCNN at **88.31%**) by **9.31%** and MLPs (SimpleMLP at **82.25%**) by **15.37%** validation accuracy, leveraging the custom shift-difference maps as a strong inductive spatial bias.
 > * **Ultra-Lean Resource Footprint**: Slashing parameter size to **1.1 Million** (a **96.7% reduction** from the previous MLP implementation) ensures the model fits on resource-constrained edge devices and runs predictions in milliseconds.
 
 ### 📈 Accuracy Trajectory
