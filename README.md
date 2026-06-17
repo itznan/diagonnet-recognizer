@@ -55,8 +55,12 @@ Models trained on **2,307 face images** using an NVIDIA GeForce RTX 3060 Ti GPU 
 | **SimpleCNN** (Baseline CNN) | **88.31%** | 1,203,330 | 3.86 seconds |
 | **SimpleMLP** (Baseline MLP) | **82.25%** | 2,601,538 | 1.66 seconds |
 
-> [!NOTE]  
-> The hybrid **DiagonNet** achieves near-perfect validation accuracy on par with pre-trained transfer learning (YOLOv8), but trains **15x faster** (11.64s vs 167.28s) and uses **96.7% fewer parameters** than the flat MLP-DiagonNet implementation.
+> [!IMPORTANT]
+> **🏆 The DiagonNet Advantage:**
+> * **Near-SOTA Accuracy from Scratch**: Achieves a massive **97.62% validation accuracy**—on par with YOLOv8 (**98.27%**)—without utilizing any external pre-trained weights (unlike YOLOv8 which is pre-trained on ImageNet).
+> * **15x Speedup in Training**: Converges fully in just **11.64 seconds** on GPU, compared to YOLOv8's **167.28 seconds** (nearly 15 times faster!).
+> * **Outperforms Baselines by ~10%**: Beats standard convolutional baselines (SimpleCNN at **88.31%**) and MLPs (SimpleMLP at **82.25%**) by encoding custom diagonal and L-shape chess knight pixel relationship maps as a spatial bias.
+> * **Ultra-Lean Resource Footprint**: Slashing parameter size to **1.1 Million** (a **96.7% reduction** from the previous MLP implementation) ensures the model fits on resource-constrained edge devices and runs predictions in milliseconds.
 
 ### 📈 Accuracy Trajectory
 
