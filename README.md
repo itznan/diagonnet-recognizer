@@ -72,6 +72,26 @@ python use.py
 4. **Custom DiagonNet Architecture (with Chess Knight Extension)**:
    The custom `DiagonNet` model dynamically computes pixel-level spatial relationships. In its forward pass, it shifts the image in 4 diagonal directions (Top-Left, Top-Right, Bottom-Left, Bottom-Right) and 8 chess knight-move directions (L-shape shifts, e.g., Up 2 Right 1). It computes the difference maps between the original image and all 12 shifted versions. The original image, 4 diagonal maps, and 8 knight-move maps are concatenated (yielding a 13-channel feature tensor) before being flattened and passed to dense classification layers (`128` $\rightarrow$ `64` $\rightarrow$ `10` outputs).
 
+---
+
+## 👩‍🦰 Face Gender Classifier Subproject (`gender_classifier/`)
+
+We have adapted the **DiagonNet** architecture to perform real-world face gender classification (recognizing Male vs. Female faces) using a dataset of ~2,300 cropped face images.
+
+### 📁 Gender Project Files
+* **[gender_classifier/train_gender.py](file:///E:/NAN/Ai/1/gender_classifier/train_gender.py)**: Loads, splits, augments, and trains DiagonNet on the face images using your CUDA GPU.
+* **[gender_classifier/predict_gender.py](file:///E:/NAN/Ai/1/gender_classifier/predict_gender.py)**: Command-line prediction tool to test custom face images:
+  ```bash
+  python gender_classifier/predict_gender.py <path_to_image>
+  ```
+* **`gender_classifier/gender_model.pth`**: Trained binary classification weights state dict.
+
+### 🚀 Training & Results
+* **Dataset**: ~2,300 scraped and cropped face images from Google Images (split: 1,173 men, 1,134 women).
+* **Augmented Dataset**: 16,605 samples (9x augmentation).
+* **Accuracy**: Achieved **84.20% validation accuracy** on the split and **99.35%** on the full training dataset after 25 epochs on the RTX 3060 Ti GPU.
+
+
 
 
 
