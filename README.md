@@ -58,6 +58,11 @@ Models trained on **2,307 face images** using an NVIDIA GeForce RTX 3060 Ti GPU 
 > [!NOTE]  
 > The hybrid **DiagonNet** achieves near-perfect validation accuracy on par with pre-trained transfer learning (YOLOv8), but trains **15x faster** (11.64s vs 167.28s) and uses **96.7% fewer parameters** than the flat MLP-DiagonNet implementation.
 
+### 📈 Accuracy Trajectory
+
+![Validation Accuracy Comparison](assets/comparison_chart.png)
+
+
 ---
 
 ## 🚀 Getting Started
