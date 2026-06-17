@@ -48,7 +48,5 @@ data/
 # Ignore the trained PyTorch model weights (large binary file)
 model.pth
 
-# Gender classifier local files
-gender_classifier/gender_dataset_face/
-gender_classifier/gender_model.pth
-gender_classifier/__MACOSX/
+# Ignore the entire gender classifier directory
+gender_classifier/
